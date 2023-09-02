@@ -35,13 +35,30 @@ def checkin(nickName,uid,gameId):
     else:
         print(f"{nickName}签到失败:", response.status_code, response.reason,f'{response.json()["message"]}')
 
+def isCheckined(uid,gameId):
+    url = f"https://zonai.skland.com/api/v1/game/attendance?gameId={gameId}&uid={uid}"
+
+    response = requests.get(url, headers=headers)
+
+    # 检查"data"和"calendar"键是否存在，并获取"calendar"列表
+    if "data" in response.json() and "calendar" in response.json()["data"]:
+        calendar_list = response.json()["data"]["calendar"]
+        
+        # 遍历"calendar"列表，检查是否有"available"为True的项
+        for item in calendar_list:
+            if item.get("available", False):
+                return True
+        else:
+            return False
+    else:
+        print("ERROR 未获取到签到记录")
+        return False
 
 def get_bindingList():
     url="https://zonai.skland.com/api/v1/game/player/binding"
 
     response = requests.get(url, headers=headers)
     if response.json()['code'] == 0:
-        print(response.json())
         for i in response.json()['data']['list']:
             if i['appCode'] == 'arknights':
                 return i['bindingList']
@@ -53,4 +70,7 @@ def get_bindingList():
 
 bindingList=get_bindingList()
 for i in bindingList:
-    checkin(i["nickName"],i["uid"],i["channelMasterId"])
+    if isCheckined(i["uid"],i["channelMasterId"]):
+        checkin(i["nickName"],i["uid"],i["channelMasterId"])
+    else:
+        print(f'{i["nickName"]}已签到')
