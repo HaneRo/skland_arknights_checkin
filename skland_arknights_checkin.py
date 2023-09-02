@@ -7,7 +7,7 @@ new Env('森空岛-明日方舟');
 import requests
 import os
 
-# 请填写下方cred，uid，gameId的值，或在环境变量中填写skland_cred，skland_uid，skland_gameId的值，以环境变量中的为准
+# 请填写下方cred的值，或在环境变量中填写skland_cred，以环境变量中的为准
 cred=""
 
 if os.getenv("skland_cred"):
@@ -20,12 +20,12 @@ headers = {
     "cred": cred
 }
 
-def checkin(nickName,uid):
+def checkin(nickName,uid,gameId):
     url = "https://zonai.skland.com/api/v1/game/attendance"
 
     data = {
         "uid": uid,
-        "gameId": 1
+        "gameId": gameId
     }
 
     response = requests.post(url, headers=headers, json=data)
@@ -53,4 +53,4 @@ def get_bindingList():
 
 bindingList=get_bindingList()
 for i in bindingList:
-    checkin(i["nickName"],i["uid"])
+    checkin(i["nickName"],i["uid"],i["channelMasterId"])
