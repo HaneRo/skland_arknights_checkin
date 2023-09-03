@@ -29,9 +29,11 @@ def checkin(nickName,uid,gameId):
     }
 
     response = requests.post(url, headers=headers, json=data)
-
-    if response.status_code == 200 & response.json()['code'] == 0:
-        print(f'{nickName}签到成功，获得了{response.json()["resource"]["name"]}×{response.json()["count"]}\n')
+    if response.json()['code'] == 0:
+        for award in response.json().get('data', {}).get('awards', []):
+            count = award.get('count', None)
+            name = award.get('resource', {}).get('name', None)
+            print(f'{nickName}签到成功，获得了{name}×{count}\n')
     else:
         print(f"{nickName}签到失败:", response.status_code, response.reason,f'{response.json()["message"]}')
 
