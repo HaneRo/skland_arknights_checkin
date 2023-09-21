@@ -17,7 +17,14 @@ if not cred:
     exit(0)
 
 headers = {
-    "cred": cred
+    "cred": cred,
+    "vName": "1.0.1",
+    "vCode": "100001014",
+    'Accept-Encoding': 'gzip',
+    'Connection': 'close',
+    "dId": "de9759a5afaa634f",
+    "platform": "1",
+    "user-agent": "Skland/1.0.1 (com.hypergryph.skland; build:100001014; Android 33; ) Okhttp/4.11.0"
 }
 
 def checkin(nickName,uid,gameId):
