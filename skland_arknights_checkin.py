@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 import time
 import hmac
 
-# 请填写下方cred的值，或在环境变量中填写skland_content，以环境变量中的为准 https://web-api.skland.com/account/info/hg
+# 请填写下方content的值，或在环境变量中填写skland_content，以环境变量中的为准 https://web-api.skland.com/account/info/hg
 content=""
 
 if os.getenv("skland_content"):
